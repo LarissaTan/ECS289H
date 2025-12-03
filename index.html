@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Visualization L1–L4 Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- d3 from CDN -->
+  <script src="https://d3js.org/d3.v7.min.js" defer></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                   "Segoe UI", sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+    .app {
+      width: 100%;
+      max-width: 1080px;
+      background: #020617;
+      border-radius: 18px;
+      border: 1px solid #1f2937;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .7);
+      padding: 18px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+    .title h1 { font-size: 20px; }
+    .title p { font-size: 13px; color: #9ca3af; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      background: #020617;
+      border-radius: 999px;
+      padding: 6px;
+      border: 1px solid #1f2937;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      flex: 1;
+      min-width: 80px;
+      padding: 7px 10px;
+      font-size: 13px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      cursor: pointer;
+      transition: all .15s ease-out;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: #0f172a;
+      color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, .5);
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    /* Gallery */
+    #gallery-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .thumb {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #1f2937;
+      background: #020617;
+    }
+    .thumb img {
+      display: block;
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+    .thumb p {
+      font-size: 12px;
+      padding: 6px 8px 8px;
+      color: #9ca3af;
+    }
+    /* Analysis (L1–L4) */
+    #analysis-panel { display: none; }
+    #analysis-panel h2 { font-size: 18px; margin-bottom: 6px; }
+    #analysis-panel p.meta {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+    #chart {
+      width: 100%;
+      max-width: 640px;
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    #explanation {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #d1d5db;
+      white-space: pre-line;
+    }
+    @media (max-width: 640px) {
+      .app { padding: 14px; }
+      #gallery-panel { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="title">
+      <h1>Chart Gallery · L1–L4 Notebook</h1>
+      <p>First tab is Gallery, later tabs show L1–L4 explanations + d3 chart.</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="gallery">Gallery</button>
+    <button class="tab-btn" data-tab="L1">L1 · Chart Construction</button>
+    <button class="tab-btn" data-tab="L2">L2 · Key Relations</button>
+    <button class="tab-btn" data-tab="L3">L3 · Trend / Pattern</button>
+    <button class="tab-btn" data-tab="L4">L4 · Real-world Meaning</button>
+  </div>
+
+  <!-- Main content -->
+  <div class="content">
+    <!-- Gallery Tab -->
+    <section id="gallery-panel">
+      <!-- 这里放 8 张图；路径按你自己的来改 -->
+      <div class="thumb">
+        <img src="gallery/009.png" alt="009" />
+        <p>vis 009</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/009.png" alt="010" />
+        <p>vis 010</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/009.png" alt="014" />
+        <p>vis 014</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/009.png" alt="019" />
+        <p>vis 019</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/009.png" alt="020" />
+        <p>vis 020</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/009.png" alt="021" />
+        <p>vis 021</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/009.png" alt="022" />
+        <p>vis 022</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/009.png" alt="023" />
+        <p>vis 023</p>
+      </div>
+      <!-- 你之后还可以再加 -->
+    </section>
+
+    <!-- L1–L4 Tabs -->
+    <section id="analysis-panel">
+      <h2 id="analysis-title">L1 · Chart Construction</h2>
+      <p class="meta">Example bar chart rendered with d3.js · you can replace data or text.</p>
+      <div id="chart"></div>
+      <div id="explanation"></div>
+    </section>
+  </div>
+</div>
+
+<script>
+  // ---------- simple tab switch ----------
+  const tabs = document.querySelectorAll(".tab-btn");
+  const galleryPanel = document.getElementById("gallery-panel");
+  const analysisPanel = document.getElementById("analysis-panel");
+  const titleEl = document.getElementById("analysis-title");
+  const explainEl = document.getElementById("explanation");
+
+  const explanations = {
+    L1: `L1 focuses on how the chart is built:
+• Chart type: bar chart.
+• Encodings: x = category, y = value, bar height encodes magnitude.
+• Axes and labels help viewers map visual marks back to data.`,
+    L2: `L2 highlights key comparisons:
+• Identify the highest and lowest bars.
+• Compare neighbouring bars to see which group is larger.
+• Look for big gaps that show strong differences between categories.`,
+    L3: `L3 describes trend / pattern:
+• Are values generally increasing, decreasing, or mixed?
+• Any clusters of categories with similar heights?
+• Any outliers that break the overall pattern?`,
+    L4: `L4 connects the chart to reality:
+• What does a high bar mean for people or decisions?
+• How could this pattern affect policy, product design, or behaviour?
+• Which categories would you prioritise based on the data?`
+  };
+
+  function setTab(tab) {
+    tabs.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.tab === tab);
+    });
+
+    if (tab === "gallery") {
+      galleryPanel.style.display = "grid";
+      analysisPanel.style.display = "none";
+    } else {
+      galleryPanel.style.display = "none";
+      analysisPanel.style.display = "block";
+      titleEl.textContent = tab + " · " + (
+        tab === "L1" ? "Chart Construction" :
+        tab === "L2" ? "Key Relations" :
+        tab === "L3" ? "Trend / Pattern" :
+        "Real-world Meaning"
+      );
+      explainEl.textContent = explanations[tab] || "";
+    }
+  }
+
+  tabs.forEach(btn => {
+    btn.addEventListener("click", () => setTab(btn.dataset.tab));
+  });
+
+  // ---------- simple d3 bar chart ----------
+  document.addEventListener("DOMContentLoaded", function () {
+    const data = [
+      { name: "A", value: 10 },
+      { name: "B", value: 18 },
+      { name: "C", value: 6 },
+      { name: "D", value: 14 },
+      { name: "E", value: 9 }
+    ];
+
+    const margin = { top: 20, right: 10, bottom: 30, left: 30 };
+    const width = 600;
+    const height = 260;
+
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`);
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.name))
+      .range([margin.left, width - margin.right])
+      .padding(0.2);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.value)]).nice()
+      .range([height - margin.bottom, margin.top]);
+
+    // bars
+    svg.append("g")
+      .selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", d => x(d.name))
+      .attr("y", d => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", d => y(0) - y(d.value))
+      .attr("rx", 4)
+      .attr("fill", "#38bdf8");
+
+    // value labels
+    svg.append("g")
+      .selectAll("text.value")
+      .data(data)
+      .enter()
+      .append("text")
+      .attr("class", "value")
+      .attr("x", d => x(d.name) + x.bandwidth() / 2)
+      .attr("y", d => y(d.value) - 6)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 11)
+      .attr("fill", "#e5e7eb")
+      .text(d => d.value);
+
+    // x-axis
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .attr("font-size", 11)
+      .attr("fill", "#9ca3af");
+
+    // y-axis
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).ticks(5))
+      .selectAll("text")
+      .attr("font-size", 11)
+      .attr("fill", "#9ca3af");
+
+    svg.selectAll(".domain, .tick line")
+      .attr("stroke", "#4b5563");
+
+    // 默认把 L1 文本填上
+    explainEl.textContent = explanations.L1;
+  });
+</script>
+</body>
+</html>
