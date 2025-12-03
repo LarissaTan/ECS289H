@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>Visualization L1–L4 Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- d3 from CDN -->
+  <!-- d3 from CDN（如果暂时不用可以删掉） -->
   <script src="https://d3js.org/d3.v7.min.js" defer></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,6 +29,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      overflow: hidden;
     }
     .header {
       display: flex;
@@ -38,88 +39,168 @@
     }
     .title h1 { font-size: 20px; }
     .title p { font-size: 13px; color: #9ca3af; }
-    .tabs {
-      display: flex;
-      gap: 8px;
-      background: #020617;
-      border-radius: 999px;
-      padding: 6px;
-      border: 1px solid #1f2937;
-      flex-wrap: wrap;
+
+    /* 简单 view 切换 */
+    .view {
+      transition: opacity .25s ease, transform .25s ease;
     }
-    .tab-btn {
-      flex: 1;
-      min-width: 80px;
-      padding: 7px 10px;
-      font-size: 13px;
-      border-radius: 999px;
-      border: none;
-      background: transparent;
-      color: #9ca3af;
-      cursor: pointer;
-      transition: all .15s ease-out;
-      white-space: nowrap;
+    .view.hidden {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      transform: translateY(8px);
     }
-    .tab-btn.active {
-      background: #0f172a;
-      color: #38bdf8;
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, .5);
-    }
-    .content {
+
+    /* Gallery 布局 */
+    #gallery-view {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
-    /* Gallery */
-    #gallery-panel {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);  
-        gap: 20px; 
-        width: 100%;
+    #gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 100%;
     }
     .thumb {
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid #1f2937;
       background: #020617;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
     }
     .thumb img {
-        display: block;
-        width: 100%;
-        height: auto;      
-        object-fit: contain; 
+      display: block;
+      width: 100%;
+      height: auto;
     }
     .thumb p {
       font-size: 12px;
       padding: 6px 8px 8px;
       color: #9ca3af;
     }
-    /* Analysis (L1–L4) */
-    #analysis-panel { display: none; }
-    #analysis-panel h2 { font-size: 18px; margin-bottom: 6px; }
-    #analysis-panel p.meta {
+    .thumb:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, .8);
+      border-color: #38bdf8;
+    }
+
+    /* Detail 视图：sticky + 长 scroll */
+    #detail-view {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .back-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+    .back-btn {
+      border: 1px solid #1f2937;
+      background: #020617;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #e5e7eb;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background .18s ease, border-color .18s ease;
+    }
+    .back-btn:hover {
+      background: #111827;
+      border-color: #38bdf8;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 4.5fr) minmax(0, 7.5fr);
+      gap: 22px;
+      align-items: flex-start;
+    }
+
+    .detail-sticky {
+      position: sticky;
+      top: 12px;
+      align-self: flex-start;
+    }
+    .detail-card {
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      overflow: hidden;
+    }
+    .detail-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .detail-meta {
+      padding: 8px 10px 10px;
       font-size: 12px;
       color: #9ca3af;
-      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
     }
-    #chart {
-      width: 100%;
-      max-width: 640px;
-      background: #020617;
-      border-radius: 12px;
+
+    /* 右侧 L1–L4 长 scroll */
+    .levels {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 40px;
+    }
+    .level {
+      border-radius: 14px;
       border: 1px solid #1f2937;
-      padding: 10px;
-      margin-bottom: 10px;
+      background: #020617;
+      padding: 14px 16px 16px;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .5s ease, transform .5s ease;
     }
-    #explanation {
+    .level.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .level-tag {
+      font-size: 11px;
+      color: #38bdf8;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .level h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+    .level p {
       font-size: 14px;
       line-height: 1.6;
       color: #d1d5db;
       white-space: pre-line;
     }
+
+    @media (max-width: 768px) {
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
+      .detail-sticky {
+        position: static;
+      }
+    }
+
     @media (max-width: 640px) {
       .app { padding: 14px; }
-      #gallery-panel { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+      #gallery-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -128,204 +209,201 @@
   <div class="header">
     <div class="title">
       <h1>Chart Gallery · L1–L4 Notebook</h1>
-      <p>First tab is Gallery, later tabs show L1–L4 explanations + d3 chart.</p>
+      <p>Click a chart → sticky preview on the left, scroll through L1–L4 on the right.</p>
     </div>
   </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="gallery">Gallery</button>
-    <button class="tab-btn" data-tab="L1">L1 · Chart Construction</button>
-    <button class="tab-btn" data-tab="L2">L2 · Key Relations</button>
-    <button class="tab-btn" data-tab="L3">L3 · Trend / Pattern</button>
-    <button class="tab-btn" data-tab="L4">L4 · Real-world Meaning</button>
-  </div>
-
-  <!-- Main content -->
-  <div class="content">
-    <!-- Gallery Tab -->
-    <section id="gallery-panel">
-      <!-- 这里放 8 张图；路径按你自己的来改 -->
-      <div class="thumb">
+  <!-- GALLERY VIEW -->
+  <section id="gallery-view" class="view">
+    <p style="font-size:13px;color:#9ca3af;margin-bottom:4px;">
+      Select a visualization to explore its L1–L4 explanations.
+    </p>
+    <div id="gallery-grid">
+      <!-- 每个 thumb 用 data-id 标记一个 vis_id -->
+      <div class="thumb" data-id="009">
         <img src="gallery/009.png" alt="009" />
         <p>vis 009</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="014">
         <img src="gallery/014.png" alt="014" />
         <p>vis 014</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="019">
         <img src="gallery/019.png" alt="019" />
         <p>vis 019</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="020">
         <img src="gallery/020.png" alt="020" />
         <p>vis 020</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="021">
         <img src="gallery/021.png" alt="021" />
         <p>vis 021</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="022">
         <img src="gallery/022.png" alt="022" />
         <p>vis 022</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="023">
         <img src="gallery/023.png" alt="023" />
         <p>vis 023</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="024">
         <img src="gallery/024.png" alt="024" />
         <p>vis 024</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="026">
         <img src="gallery/026.png" alt="026" />
         <p>vis 026</p>
       </div>
-      <div class="thumb">
+      <div class="thumb" data-id="027">
         <img src="gallery/027.png" alt="027" />
         <p>vis 027</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- L1–L4 Tabs -->
-    <section id="analysis-panel">
-      <h2 id="analysis-title">L1 · Chart Construction</h2>
-      <p class="meta">Example bar chart rendered with d3.js · you can replace data or text.</p>
-      <div id="chart"></div>
-      <div id="explanation"></div>
-    </section>
-  </div>
+  <!-- DETAIL VIEW -->
+  <section id="detail-view" class="view hidden">
+    <div class="back-row">
+      <button class="back-btn" id="back-btn">← Back to gallery</button>
+      <span id="detail-label" style="font-size:12px;"></span>
+    </div>
+
+    <div class="detail-layout">
+      <!-- 左侧 sticky 预览 -->
+      <div class="detail-sticky">
+        <div class="detail-card">
+          <img id="detail-image" src="" alt="selected visualization" />
+          <div class="detail-meta">
+            <span id="detail-id">vis ???</span>
+            <span id="detail-note">Scroll to read L1–L4 explanations ↓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧 L1–L4 长 scroll -->
+      <div class="levels" id="levels">
+        <article class="level" data-level="L1">
+          <div class="level-tag">Level 1</div>
+          <h3>L1 · Chart Construction</h3>
+          <p id="text-L1"></p>
+        </article>
+        <article class="level" data-level="L2">
+          <div class="level-tag">Level 2</div>
+          <h3>L2 · Key Relations</h3>
+          <p id="text-L2"></p>
+        </article>
+        <article class="level" data-level="L3">
+          <div class="level-tag">Level 3</div>
+          <h3>L3 · Trend / Pattern</h3>
+          <p id="text-L3"></p>
+        </article>
+        <article class="level" data-level="L4">
+          <div class="level-tag">Level 4</div>
+          <h3>L4 · Real-world Meaning</h3>
+          <p id="text-L4"></p>
+        </article>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>
-  // ---------- simple tab switch ----------
-  const tabs = document.querySelectorAll(".tab-btn");
-  const galleryPanel = document.getElementById("gallery-panel");
-  const analysisPanel = document.getElementById("analysis-panel");
-  const titleEl = document.getElementById("analysis-title");
-  const explainEl = document.getElementById("explanation");
-
-  const explanations = {
-    L1: `L1 focuses on how the chart is built:
-• Chart type: bar chart.
-• Encodings: x = category, y = value, bar height encodes magnitude.
-• Axes and labels help viewers map visual marks back to data.`,
-    L2: `L2 highlights key comparisons:
-• Identify the highest and lowest bars.
-• Compare neighbouring bars to see which group is larger.
-• Look for big gaps that show strong differences between categories.`,
-    L3: `L3 describes trend / pattern:
-• Are values generally increasing, decreasing, or mixed?
-• Any clusters of categories with similar heights?
-• Any outliers that break the overall pattern?`,
-    L4: `L4 connects the chart to reality:
-• What does a high bar mean for people or decisions?
-• How could this pattern affect policy, product design, or behaviour?
-• Which categories would you prioritise based on the data?`
+  // 简单的 per-vis 文本数据：你之后可以把这里换成你真正的 L1–L4
+  const visCopy = {
+    "009": {
+      label: "Unemployment vs 2008 promise",
+      L1: "Describe the chart type, axes, and main encodings for vis 009.",
+      L2: "Summarize the highest / lowest unemployment points and key comparisons.",
+      L3: "Explain the overall trend over time and any turning points.",
+      L4: "Connect the pattern to policy promises and economic recovery."
+    },
+    "014": {
+      label: "Scatterplot of development vs corruption",
+      L1: "What are the axes and what does each dot represent?",
+      L2: "Which regions/countries stand out as extremes?",
+      L3: "Is there a visible pattern or cluster structure?",
+      L4: "What might this imply for interpreting governance quality?"
+    }
+    // 其他 vis 可以复用同一套文本，或者你之后按需要补全
   };
 
-  function setTab(tab) {
-    tabs.forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.tab === tab);
-    });
+  const defaultCopy = {
+    label: "Visualization",
+    L1: "L1 focuses on how the chart is built: chart type, encodings, axes, and layout.",
+    L2: "L2 highlights key comparisons or extrema between categories or time points.",
+    L3: "L3 describes overall trends, clusters, or outliers in the data.",
+    L4: "L4 links the visual pattern back to real-world meaning and decisions."
+  };
 
-    if (tab === "gallery") {
-      galleryPanel.style.display = "grid";
-      analysisPanel.style.display = "none";
-    } else {
-      galleryPanel.style.display = "none";
-      analysisPanel.style.display = "block";
-      titleEl.textContent = tab + " · " + (
-        tab === "L1" ? "Chart Construction" :
-        tab === "L2" ? "Key Relations" :
-        tab === "L3" ? "Trend / Pattern" :
-        "Real-world Meaning"
-      );
-      explainEl.textContent = explanations[tab] || "";
-    }
+  const galleryView = document.getElementById("gallery-view");
+  const detailView = document.getElementById("detail-view");
+  const backBtn = document.getElementById("back-btn");
+  const detailImage = document.getElementById("detail-image");
+  const detailId = document.getElementById("detail-id");
+  const detailLabel = document.getElementById("detail-label");
+  const textL1 = document.getElementById("text-L1");
+  const textL2 = document.getElementById("text-L2");
+  const textL3 = document.getElementById("text-L3");
+  const textL4 = document.getElementById("text-L4");
+
+  // 点击缩略图 → 进入 detail 视图
+  document.querySelectorAll(".thumb").forEach(thumb => {
+    thumb.addEventListener("click", () => {
+      const id = thumb.dataset.id;
+      const img = thumb.querySelector("img");
+      const copy = visCopy[id] || defaultCopy;
+
+      detailImage.src = img.src;
+      detailImage.alt = img.alt || ("vis " + id);
+      detailId.textContent = "vis " + id;
+      detailLabel.textContent = copy.label;
+
+      textL1.textContent = copy.L1;
+      textL2.textContent = copy.L2;
+      textL3.textContent = copy.L3;
+      textL4.textContent = copy.L4;
+
+      // 切换视图
+      galleryView.classList.add("hidden");
+      detailView.classList.remove("hidden");
+
+      // 回到顶部
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // 重置 level 动画状态
+      document.querySelectorAll(".level").forEach(el => el.classList.remove("visible"));
+      // 触发展示（避免 IntersectionObserver 还没 attach）
+      setTimeout(() => {
+        levelsObserver(); 
+      }, 50);
+    });
+  });
+
+  // 返回 gallery
+  backBtn.addEventListener("click", () => {
+    detailView.classList.add("hidden");
+    galleryView.classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // IntersectionObserver：滚动时让 L1–L4 逐个淡入
+  function levelsObserver() {
+    const levels = document.querySelectorAll(".level");
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    levels.forEach(el => io.observe(el));
   }
 
-  tabs.forEach(btn => {
-    btn.addEventListener("click", () => setTab(btn.dataset.tab));
-  });
-
-  // ---------- simple d3 bar chart ----------
-  document.addEventListener("DOMContentLoaded", function () {
-    const data = [
-      { name: "A", value: 10 },
-      { name: "B", value: 18 },
-      { name: "C", value: 6 },
-      { name: "D", value: 14 },
-      { name: "E", value: 9 }
-    ];
-
-    const margin = { top: 20, right: 10, bottom: 30, left: 30 };
-    const width = 600;
-    const height = 260;
-
-    const svg = d3.select("#chart")
-      .append("svg")
-      .attr("viewBox", `0 0 ${width} ${height}`);
-
-    const x = d3.scaleBand()
-      .domain(data.map(d => d.name))
-      .range([margin.left, width - margin.right])
-      .padding(0.2);
-
-    const y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.value)]).nice()
-      .range([height - margin.bottom, margin.top]);
-
-    // bars
-    svg.append("g")
-      .selectAll("rect")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("x", d => x(d.name))
-      .attr("y", d => y(d.value))
-      .attr("width", x.bandwidth())
-      .attr("height", d => y(0) - y(d.value))
-      .attr("rx", 4)
-      .attr("fill", "#38bdf8");
-
-    // value labels
-    svg.append("g")
-      .selectAll("text.value")
-      .data(data)
-      .enter()
-      .append("text")
-      .attr("class", "value")
-      .attr("x", d => x(d.name) + x.bandwidth() / 2)
-      .attr("y", d => y(d.value) - 6)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 11)
-      .attr("fill", "#e5e7eb")
-      .text(d => d.value);
-
-    // x-axis
-    svg.append("g")
-      .attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x))
-      .selectAll("text")
-      .attr("font-size", 11)
-      .attr("fill", "#9ca3af");
-
-    // y-axis
-    svg.append("g")
-      .attr("transform", `translate(${margin.left},0)`)
-      .call(d3.axisLeft(y).ticks(5))
-      .selectAll("text")
-      .attr("font-size", 11)
-      .attr("fill", "#9ca3af");
-
-    svg.selectAll(".domain, .tick line")
-      .attr("stroke", "#4b5563");
-
-    // 默认把 L1 文本填上
-    explainEl.textContent = explanations.L1;
-  });
+  document.addEventListener("DOMContentLoaded", levelsObserver);
 </script>
 </body>
 </html>
