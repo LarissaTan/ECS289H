@@ -72,9 +72,10 @@
     }
     /* Gallery */
     #gallery-panel {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);  
+        gap: 20px; 
+        width: 100%;
     }
     .thumb {
       border-radius: 10px;
@@ -83,10 +84,10 @@
       background: #020617;
     }
     .thumb img {
-      display: block;
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
+        display: block;
+        width: 100%;
+        height: auto;      
+        object-fit: contain; 
     }
     .thumb p {
       font-size: 12px;
@@ -150,34 +151,41 @@
         <p>vis 009</p>
       </div>
       <div class="thumb">
-        <img src="gallery/009.png" alt="010" />
-        <p>vis 010</p>
-      </div>
-      <div class="thumb">
-        <img src="gallery/009.png" alt="014" />
+        <img src="gallery/014.png" alt="014" />
         <p>vis 014</p>
       </div>
       <div class="thumb">
-        <img src="gallery/009.png" alt="019" />
+        <img src="gallery/019.png" alt="019" />
         <p>vis 019</p>
       </div>
       <div class="thumb">
-        <img src="gallery/009.png" alt="020" />
+        <img src="gallery/020.png" alt="020" />
         <p>vis 020</p>
       </div>
       <div class="thumb">
-        <img src="gallery/009.png" alt="021" />
+        <img src="gallery/021.png" alt="021" />
         <p>vis 021</p>
       </div>
       <div class="thumb">
-        <img src="gallery/009.png" alt="022" />
+        <img src="gallery/022.png" alt="022" />
         <p>vis 022</p>
       </div>
       <div class="thumb">
-        <img src="gallery/009.png" alt="023" />
+        <img src="gallery/023.png" alt="023" />
         <p>vis 023</p>
       </div>
-      <!-- 你之后还可以再加 -->
+      <div class="thumb">
+        <img src="gallery/024.png" alt="024" />
+        <p>vis 024</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/026.png" alt="026" />
+        <p>vis 026</p>
+      </div>
+      <div class="thumb">
+        <img src="gallery/027.png" alt="027" />
+        <p>vis 027</p>
+      </div>
     </section>
 
     <!-- L1–L4 Tabs -->
