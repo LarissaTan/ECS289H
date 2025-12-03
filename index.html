@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <title>Visualization L1–L4 Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- d3 from CDN（如果暂时不用可以删掉） -->
   <script src="https://d3js.org/d3.v7.min.js" defer></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,7 +39,6 @@
     .title h1 { font-size: 20px; }
     .title p { font-size: 13px; color: #9ca3af; }
 
-    /* 简单 view 切换 */
     .view {
       transition: opacity .25s ease, transform .25s ease;
     }
@@ -51,7 +49,7 @@
       transform: translateY(8px);
     }
 
-    /* Gallery 布局 */
+    /* Gallery */
     #gallery-view {
       display: flex;
       flex-direction: column;
@@ -87,7 +85,7 @@
       border-color: #38bdf8;
     }
 
-    /* Detail 视图：sticky + 长 scroll */
+    /* Detail view */
     #detail-view {
       display: flex;
       flex-direction: column;
@@ -151,7 +149,7 @@
       gap: 8px;
     }
 
-    /* 右侧 L1–L4 长 scroll */
+    /* L1–L4 with GPT / Gemini */
     .levels {
       display: flex;
       flex-direction: column;
@@ -180,16 +178,34 @@
     }
     .level h3 {
       font-size: 15px;
-      margin-bottom: 6px;
-    }
-    .level p {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #d1d5db;
-      white-space: pre-line;
+      margin-bottom: 8px;
     }
 
-    @media (max-width: 768px) {
+    .model-cols {
+      display: flex;
+      gap: 16px;
+    }
+    .model-col {
+      flex: 1;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #d1d5db;
+    }
+    .model-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .model-label span {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+    }
+
+    @media (max-width: 900px) {
       .detail-layout {
         grid-template-columns: 1fr;
       }
@@ -201,6 +217,7 @@
     @media (max-width: 640px) {
       .app { padding: 14px; }
       #gallery-grid { grid-template-columns: 1fr; }
+      .model-cols { flex-direction: column; }
     }
   </style>
 </head>
@@ -209,17 +226,16 @@
   <div class="header">
     <div class="title">
       <h1>Chart Gallery · L1–L4 Notebook</h1>
-      <p>Click a chart → sticky preview on the left, scroll through L1–L4 on the right.</p>
+      <p>Click a chart → sticky preview on the left, GPT vs Gemini L1–L4 on the right.</p>
     </div>
   </div>
 
   <!-- GALLERY VIEW -->
   <section id="gallery-view" class="view">
     <p style="font-size:13px;color:#9ca3af;margin-bottom:4px;">
-      Select a visualization to explore its L1–L4 explanations.
+      Select a visualization to compare GPT and Gemini explanations.
     </p>
     <div id="gallery-grid">
-      <!-- 每个 thumb 用 data-id 标记一个 vis_id -->
       <div class="thumb" data-id="009">
         <img src="gallery/009.png" alt="009" />
         <p>vis 009</p>
@@ -277,32 +293,71 @@
           <img id="detail-image" src="" alt="selected visualization" />
           <div class="detail-meta">
             <span id="detail-id">vis ???</span>
-            <span id="detail-note">Scroll to read L1–L4 explanations ↓</span>
+            <span id="detail-note">Scroll to read GPT & Gemini explanations ↓</span>
           </div>
         </div>
       </div>
 
-      <!-- 右侧 L1–L4 长 scroll -->
+      <!-- 右侧 L1–L4，GPT & Gemini -->
       <div class="levels" id="levels">
         <article class="level" data-level="L1">
-          <div class="level-tag">Level 1</div>
+          <div class="level-tag">LEVEL 1</div>
           <h3>L1 · Chart Construction</h3>
-          <p id="text-L1"></p>
+          <div class="model-cols">
+            <div class="model-col">
+              <div class="model-label"><span>GPT</span></div>
+              <p id="text-L1-gpt"></p>
+            </div>
+            <div class="model-col">
+              <div class="model-label"><span>Gemini</span></div>
+              <p id="text-L1-gemini"></p>
+            </div>
+          </div>
         </article>
+
         <article class="level" data-level="L2">
-          <div class="level-tag">Level 2</div>
+          <div class="level-tag">LEVEL 2</div>
           <h3>L2 · Key Relations</h3>
-          <p id="text-L2"></p>
+          <div class="model-cols">
+            <div class="model-col">
+              <div class="model-label"><span>GPT</span></div>
+              <p id="text-L2-gpt"></p>
+            </div>
+            <div class="model-col">
+              <div class="model-label"><span>Gemini</span></div>
+              <p id="text-L2-gemini"></p>
+            </div>
+          </div>
         </article>
+
         <article class="level" data-level="L3">
-          <div class="level-tag">Level 3</div>
+          <div class="level-tag">LEVEL 3</div>
           <h3>L3 · Trend / Pattern</h3>
-          <p id="text-L3"></p>
+          <div class="model-cols">
+            <div class="model-col">
+              <div class="model-label"><span>GPT</span></div>
+              <p id="text-L3-gpt"></p>
+            </div>
+            <div class="model-col">
+              <div class="model-label"><span>Gemini</span></div>
+              <p id="text-L3-gemini"></p>
+            </div>
+          </div>
         </article>
+
         <article class="level" data-level="L4">
-          <div class="level-tag">Level 4</div>
+          <div class="level-tag">LEVEL 4</div>
           <h3>L4 · Real-world Meaning</h3>
-          <p id="text-L4"></p>
+          <div class="model-cols">
+            <div class="model-col">
+              <div class="model-label"><span>GPT</span></div>
+              <p id="text-L4-gpt"></p>
+            </div>
+            <div class="model-col">
+              <div class="model-label"><span>Gemini</span></div>
+              <p id="text-L4-gemini"></p>
+            </div>
+          </div>
         </article>
       </div>
     </div>
@@ -310,31 +365,55 @@
 </div>
 
 <script>
-  // 简单的 per-vis 文本数据：你之后可以把这里换成你真正的 L1–L4
+  // 这里放你的真实文案：每个 vis_id，两套模型各自 L1–L4
   const visCopy = {
-    "009": {
-      label: "Unemployment vs 2008 promise",
-      L1: "Describe the chart type, axes, and main encodings for vis 009.",
-      L2: "Summarize the highest / lowest unemployment points and key comparisons.",
-      L3: "Explain the overall trend over time and any turning points.",
-      L4: "Connect the pattern to policy promises and economic recovery."
+    "021": {
+      label: "All stars in the universe – pie chart",
+      gpt: {
+        L1: "GPT L1 for vis 021 ...",
+        L2: "GPT L2 for vis 021 ...",
+        L3: "GPT L3 for vis 021 ...",
+        L4: "GPT L4 for vis 021 ..."
+      },
+      gemini: {
+        L1: "Gemini L1 for vis 021 ...",
+        L2: "Gemini L2 for vis 021 ...",
+        L3: "Gemini L3 for vis 021 ...",
+        L4: "Gemini L4 for vis 021 ..."
+      }
     },
-    "014": {
-      label: "Scatterplot of development vs corruption",
-      L1: "What are the axes and what does each dot represent?",
-      L2: "Which regions/countries stand out as extremes?",
-      L3: "Is there a visible pattern or cluster structure?",
-      L4: "What might this imply for interpreting governance quality?"
+    "020": {
+      label: "Cost of a security breach – Venn diagram",
+      gpt: {
+        L1: "GPT L1 for vis 020 ...",
+        L2: "GPT L2 for vis 020 ...",
+        L3: "GPT L3 for vis 020 ...",
+        L4: "GPT L4 for vis 020 ..."
+      },
+      gemini: {
+        L1: "Gemini L1 for vis 020 ...",
+        L2: "Gemini L2 for vis 020 ...",
+        L3: "Gemini L3 for vis 020 ...",
+        L4: "Gemini L4 for vis 020 ..."
+      }
     }
-    // 其他 vis 可以复用同一套文本，或者你之后按需要补全
+    // 其他 vis 按需要继续加
   };
 
   const defaultCopy = {
     label: "Visualization",
-    L1: "L1 focuses on how the chart is built: chart type, encodings, axes, and layout.",
-    L2: "L2 highlights key comparisons or extrema between categories or time points.",
-    L3: "L3 describes overall trends, clusters, or outliers in the data.",
-    L4: "L4 links the visual pattern back to real-world meaning and decisions."
+    gpt: {
+      L1: "L1 focuses on how the chart is built: chart type, encodings, axes, and layout.",
+      L2: "L2 highlights key comparisons or extrema between categories or time points.",
+      L3: "L3 describes overall trends, clusters, or outliers in the data.",
+      L4: "L4 links the visual pattern back to real-world meaning and decisions."
+    },
+    gemini: {
+      L1: "Gemini L1 placeholder: describe construction details for this chart.",
+      L2: "Gemini L2 placeholder: summarize key comparisons and differences.",
+      L3: "Gemini L3 placeholder: explain overall trend or distribution pattern.",
+      L4: "Gemini L4 placeholder: relate the pattern to real-world implications."
+    }
   };
 
   const galleryView = document.getElementById("gallery-view");
@@ -343,12 +422,18 @@
   const detailImage = document.getElementById("detail-image");
   const detailId = document.getElementById("detail-id");
   const detailLabel = document.getElementById("detail-label");
-  const textL1 = document.getElementById("text-L1");
-  const textL2 = document.getElementById("text-L2");
-  const textL3 = document.getElementById("text-L3");
-  const textL4 = document.getElementById("text-L4");
 
-  // 点击缩略图 → 进入 detail 视图
+  const text = {
+    L1g: document.getElementById("text-L1-gpt"),
+    L1m: document.getElementById("text-L1-gemini"),
+    L2g: document.getElementById("text-L2-gpt"),
+    L2m: document.getElementById("text-L2-gemini"),
+    L3g: document.getElementById("text-L3-gpt"),
+    L3m: document.getElementById("text-L3-gemini"),
+    L4g: document.getElementById("text-L4-gpt"),
+    L4m: document.getElementById("text-L4-gemini")
+  };
+
   document.querySelectorAll(".thumb").forEach(thumb => {
     thumb.addEventListener("click", () => {
       const id = thumb.dataset.id;
@@ -360,35 +445,30 @@
       detailId.textContent = "vis " + id;
       detailLabel.textContent = copy.label;
 
-      textL1.textContent = copy.L1;
-      textL2.textContent = copy.L2;
-      textL3.textContent = copy.L3;
-      textL4.textContent = copy.L4;
+      text.L1g.textContent = (copy.gpt && copy.gpt.L1) || defaultCopy.gpt.L1;
+      text.L1m.textContent = (copy.gemini && copy.gemini.L1) || defaultCopy.gemini.L1;
+      text.L2g.textContent = (copy.gpt && copy.gpt.L2) || defaultCopy.gpt.L2;
+      text.L2m.textContent = (copy.gemini && copy.gemini.L2) || defaultCopy.gemini.L2;
+      text.L3g.textContent = (copy.gpt && copy.gpt.L3) || defaultCopy.gpt.L3;
+      text.L3m.textContent = (copy.gemini && copy.gemini.L3) || defaultCopy.gemini.L3;
+      text.L4g.textContent = (copy.gpt && copy.gpt.L4) || defaultCopy.gpt.L4;
+      text.L4m.textContent = (copy.gemini && copy.gemini.L4) || defaultCopy.gemini.L4;
 
-      // 切换视图
       galleryView.classList.add("hidden");
       detailView.classList.remove("hidden");
-
-      // 回到顶部
       window.scrollTo({ top: 0, behavior: "smooth" });
 
-      // 重置 level 动画状态
       document.querySelectorAll(".level").forEach(el => el.classList.remove("visible"));
-      // 触发展示（避免 IntersectionObserver 还没 attach）
-      setTimeout(() => {
-        levelsObserver(); 
-      }, 50);
+      setTimeout(() => { levelsObserver(); }, 50);
     });
   });
 
-  // 返回 gallery
   backBtn.addEventListener("click", () => {
     detailView.classList.add("hidden");
     galleryView.classList.remove("hidden");
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // IntersectionObserver：滚动时让 L1–L4 逐个淡入
   function levelsObserver() {
     const levels = document.querySelectorAll(".level");
     const io = new IntersectionObserver(entries => {
