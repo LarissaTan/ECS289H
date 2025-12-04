@@ -14,7 +14,6 @@ async function loadJson(url) {
 }
 
 async function loadAllData() {
-  // 对应 JSON 里的字段名
   const levelField = {
     L1: "L1_construction",
     L2: "L2_key_relations",
@@ -51,7 +50,6 @@ async function loadAllData() {
     });
   });
 
-  // result.json: 键是 "vis_009" 这种
   Object.keys(result).forEach(key => {
     if (!key.startsWith("vis_")) return;
     const id = key.replace("vis_", "");
@@ -123,7 +121,6 @@ function openDetail(visId) {
   detailId.textContent = `vis ${visId}`;
   detailLabel.textContent = data.file_name || `Visualization ${visId}`;
 
-  // 填充 L1–L4 文本
   LEVELS.forEach(level => {
     const textGPT = document.getElementById(`text-${level}-gpt`);
     const textGem = document.getElementById(`text-${level}-gemini`);
@@ -167,13 +164,10 @@ LEVELS.forEach(level => {
   }
 });
 
-
-  // 显示 detail
   galleryView.classList.add("hidden");
   detailView.classList.remove("hidden");
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // 重置每个 level 的滚动和阶段
   document.querySelectorAll(".lvl-scrolly").forEach(scrolly => {
     scrolly.scrollTop = 0;
     scrolly.classList.remove("stage-overlap", "stage-extra");
@@ -215,14 +209,12 @@ function setupScrollMerge() {
       const stageEl = best.target;
       const stageName = stageEl.dataset.stage;
 
-      // 标记当前 active stage，用来控制 extra 文本是否出现
       stages.forEach(s => s.classList.toggle("active-stage", s === stageEl));
 
       const hasEnt =
         scrolly.dataset.hasEntailment &&
         scrolly.dataset.hasEntailment === "true";
 
-      // ⭐ 如果还没怎么滚（刚打开 detail），强制保持 split，不让它一开始就跳到 overlap
       if (scrolly.scrollTop < 10) {
         scrolly.classList.remove("stage-overlap", "stage-extra");
         scrolly.classList.add("stage-split");

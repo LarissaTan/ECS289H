@@ -252,17 +252,15 @@ body {
   transform: translateX(140px);
 }
 
-/* stage 2: 真正「重叠」在中间（0,0） */
 .lvl-scrolly.stage-overlap .lvl-card-gpt {
   transform: translateX(0);
   opacity: 1;
 }
 .lvl-scrolly.stage-overlap .lvl-card-gemini {
   transform: translateX(0);
-  opacity: 0.55;       /* Gemini 半透明，避免挡字 */
+  opacity: 0.55;      
 }
 
-/* stage 3: 仍然重叠，只是更淡，下面出现 result 文本 */
 .lvl-scrolly.stage-extra .lvl-card-gpt {
   transform: translateX(0);
   opacity: 0.40;
@@ -339,7 +337,7 @@ body {
  .lvl-sticky {
   overflow: visible;
   position: sticky;
-  top: 32px;        /* 如果现在不是 32，就改成 32 */
+  top: 32px;      
   height: 170px;
   display: flex;
   justify-content: center;
