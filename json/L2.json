@@ -1,0 +1,148 @@
+{
+  "visualizations": [
+    {
+      "vis_id": "009",
+      "file_name": "009.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Unemployment rose sharply from 2008 to 2009, peaked around 10%, and stayed above the stated goal of 8% until it gradually declined after 2011."
+        },
+        "gemini": {
+          "L2_key_relations": "The unemployment rate spiked sharply from under 7% in early 2009 to a peak near 9.8% in late 2009/early 2010, remaining above 8.5% until late 2011 before finally dropping towards 7.5% by late 2012."
+        }
+      }
+    },
+    {
+      "vis_id": "010",
+      "file_name": "010.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Global GDP per capita increased steadily from about $11,200 in 1994 to over $21,000 in 2024, with only brief slowdowns during the financial crisis and COVID-19."
+        },
+        "gemini": {
+          "L2_key_relations": "Global GDP per capita more than doubled from $11,202 in 1994 to $21,268 in 2024, experiencing temporary dips during the 2008 Global Financial Crisis and the 2020 COVID pandemic."
+        }
+      }
+    },
+    {
+      "vis_id": "014",
+      "file_name": "014.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Countries with higher electoral democracy scores generally show lower corruption levels, with no country appearing as both highly democratic and highly corrupt."
+        },
+        "gemini": {
+          "L2_key_relations": "There is a strong negative correlation between the Electoral Democracy Index and the Political Corruption Index; countries with low democracy (e.g., China, Myanmar) show high corruption (above 0.5), while highly democratic countries (e.g., Denmark, Poland) show very low corruption (below 0.15)."
+        }
+      }
+    },
+    {
+      "vis_id": "019",
+      "file_name": "019.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Younger drivers show much higher texting-while-driving rates (44%–49%) than older groups, while males and females differ only slightly at 19% versus 17%."
+        },
+        "gemini": {
+          "L2_key_relations": "The 21-24 age group has the highest percentage (49%) sending messages while driving, which is slightly higher than the 18-20 group (44%) and significantly higher than both males (19%) and females (17%)."
+        }
+      }
+    },
+    {
+      "vis_id": "020",
+      "file_name": "020.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "The estimated breach cost ranges from £65,000 to £115,000, with the upper bound nearly twice the lower one."
+        },
+        "gemini": {
+          "L2_key_relations": "The cost estimate spans £65,000 to £115,000, with the higher figure almost 1.8 times the lower bound."
+        }
+      }
+    },
+    {
+      "vis_id": "021",
+      "file_name": "021.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Red dwarfs make up 70% of all stars—more than double the 30% share of other stars."
+        },
+        "gemini": {
+          "L2_key_relations": "Red dwarfs dominate the star population at 70%, over twice the proportion of other stars."
+        }
+      }
+    },
+    {
+      "vis_id": "022",
+      "file_name": "022.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Percentages decline steadily from 30% in ages 18–34 to 12% in ages 65+, showing decreasing participation with age."
+        },
+        "gemini": {
+          "L2_key_relations": "Younger groups show higher percentages (30% at 18–34) while the rate falls consistently to 12% among those 65+."
+        }
+      }
+    },
+    {
+      "vis_id": "023",
+      "file_name": "023.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "A larger share of adults rode a bike at least once (34%) than those riding more than six times (24%), indicating more occasional than frequent riders."
+        },
+        "gemini": {
+          "L2_key_relations": "About one-third rode at least once versus one-quarter riding frequently, showing occasional riders are more common."
+        }
+      }
+    },
+    {
+      "vis_id": "024",
+      "file_name": "024.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "UFO reports (32,299) vastly exceed lightning deaths (352) and voter impersonation cases (9), which is almost invisible on the chart."
+        },
+        "gemini": {
+          "L2_key_relations": "UFO reports outnumber lightning deaths and voter impersonation by enormous margins, with voter fraud nearly undetectable visually."
+        }
+      }
+    },
+    {
+      "vis_id": "025",
+      "file_name": "025.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Most cases (82%) involved insiders employed by the organization, while only 18% came from non-employees."
+        },
+        "gemini": {
+          "L2_key_relations": "Insider incidents overwhelmingly came from employed insiders (82%), with non-employees accounting for only 18%."
+        }
+      }
+    },
+    {
+      "vis_id": "026",
+      "file_name": "026.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Temperatures rise from about −0.3°C in the 1950s to ~0.5°C by the 2000s, with future projections spreading widely and reaching up to ~2.1°C by 2035."
+        },
+        "gemini": {
+          "L2_key_relations": "Observed warming from ~−0.3°C to ~0.5°C aligns with early CMIP3 projections, which diverge after 2000 and reach upper ranges near ~2.1°C."
+        }
+      }
+    },
+    {
+      "vis_id": "027",
+      "file_name": "027.png",
+      "models": {
+        "gpt": {
+          "L2_key_relations": "Obama won far more majority-minority counties than Romney, with blue counties forming larger regional clusters than the smaller, scattered red ones."
+        },
+        "gemini": {
+          "L2_key_relations": "Majority-minority counties overwhelmingly supported Obama, with Romney winning fewer and more isolated counties."
+        }
+      }
+    }
+  ]
+}

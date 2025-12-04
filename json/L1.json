@@ -1,0 +1,148 @@
+{
+  "visualizations": [
+    {
+      "vis_id": "009",
+      "file_name": "009.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A single black line chart showing the U.S. unemployment rate from 2008 to 2012 on a labeled vertical percentage axis and a horizontal time axis."
+        },
+        "gemini": {
+          "L1_construction": "A line graph showing the unemployment rate on the Y-axis (from 7% to 10%) over the X-axis of time (from 2009 to 2012), with a single line tracking the rate's fluctuation."
+        }
+      }
+    },
+    {
+      "vis_id": "010",
+      "file_name": "010.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A purple line chart plotting global GDP per capita from 1994 to 2024 with labeled axes, point markers, and callout labels for 1994 and 2024 values."
+        },
+        "gemini": {
+          "L1_construction": "A line graph depicting global GDP per capita on the Y-axis (from $0 to $20,000+) over the X-axis of time (from 1994 to 2024), showing a steady upward trend with two marked crises (Global financial crisis and COVID pandemic)."
+        }
+      }
+    },
+    {
+      "vis_id": "014",
+      "file_name": "014.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A scatter plot with countries positioned by corruption index (y-axis) and electoral democracy index (x-axis), including labeled outlier countries and a shaded 'impossible' upper-right region."
+        },
+        "gemini": {
+          "L1_construction": "A scatter plot showing the Political Corruption Index (Y-axis, from 0 to 1) versus the Electoral Democracy Index (X-axis, from 0 to 1), with a general downward trend and several countries highlighted by name, and a shaded area indicating 'No country is rated as both highly democratic and corrupt'."
+        }
+      }
+    },
+    {
+      "vis_id": "019",
+      "file_name": "019.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "An infographic using car icons and horizontal bars to compare texting-while-driving percentages by sex and age groups on a dark background."
+        },
+        "gemini": {
+          "L1_construction": "An infographic using four horizontal bars, each associated with an illustration of a car, to show the percentage of people sending text messages or emails while driving, categorized by sex (Male, Female) and age group (18-20, 21-24)."
+        }
+      }
+    },
+    {
+      "vis_id": "020",
+      "file_name": "020.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "An overlapping two-circle graphic that shows the average cost of a serious security breach as a range between £65,000 and £115,000, with no axes."
+        },
+        "gemini": {
+          "L1_construction": "Two overlapping circles are used as a simple visual range indicator between £65,000 and £115,000."
+        }
+      }
+    },
+    {
+      "vis_id": "021",
+      "file_name": "021.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A two-slice pie chart on a space-themed background showing that 70% of all stars are red dwarfs and 30% are other stars."
+        },
+        "gemini": {
+          "L1_construction": "A pie chart divides all stars in the universe into two sectors for red dwarfs (70%) and other stars (30%)."
+        }
+      }
+    },
+    {
+      "vis_id": "022",
+      "file_name": "022.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A pictorial bar chart using five human silhouettes, where the red fill height at the bottom of each figure encodes the percentage for each age group."
+        },
+        "gemini": {
+          "L1_construction": "A row of human silhouettes represents age groups, with percentages shown as differing fill levels and labels for each group."
+        }
+      }
+    },
+    {
+      "vis_id": "023",
+      "file_name": "023.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A side-by-side infographic of two shaded U.S. map icons comparing the percentages and counts of adults who rode a bike at least once versus more than six times in the last year."
+        },
+        "gemini": {
+          "L1_construction": "Two partially filled U.S. maps visually compare bike ridership rates and total riders for two frequency categories."
+        }
+      }
+    },
+    {
+      "vis_id": "024",
+      "file_name": "024.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A vertical bar chart with icons above each bar, comparing counts of voter impersonation cases, deaths by lightning, and UFO reports on a shared numeric axis."
+        },
+        "gemini": {
+          "L1_construction": "A simple three-bar chart with pictograms shows how rare voter impersonation is compared with lightning deaths and UFO reports."
+        }
+      }
+    },
+    {
+      "vis_id": "025",
+      "file_name": "025.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A two-slice pie chart showing the share of healthcare victim organizations that employed the insider versus those that did not, with both counts and percentages labeled."
+        },
+        "gemini": {
+          "L1_construction": "A pie chart splits healthcare victim organizations into two sectors based on whether they directly employed the insider."
+        }
+      }
+    },
+    {
+      "vis_id": "026",
+      "file_name": "026.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A time-series line chart with observed temperature anomalies and multiple model projection lines plus shaded uncertainty, ending in forecast range bars for different climate scenarios."
+        },
+        "gemini": {
+          "L1_construction": "A line chart combines historical temperature anomaly data with bands of future climate model projections and scenario summary bars on the right."
+        }
+      }
+    },
+    {
+      "vis_id": "027",
+      "file_name": "027.png",
+      "models": {
+        "gpt": {
+          "L1_construction": "A county-level choropleth map of the U.S. showing 2012 presidential winners in majority-minority counties, using blue for Obama and red for Romney."
+        },
+        "gemini": {
+          "L1_construction": "A choropleth map colors only majority-minority counties to indicate whether Obama or Romney won them in the 2012 election."
+        }
+      }
+    }
+  ]
+}

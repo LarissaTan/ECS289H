@@ -4,222 +4,7 @@
   <meta charset="utf-8" />
   <title>Visualization L1–L4 Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://d3js.org/d3.v7.min.js" defer></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-                   "Segoe UI", sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 24px 12px;
-    }
-    .app {
-      width: 100%;
-      max-width: 1080px;
-      background: #020617;
-      border-radius: 18px;
-      border: 1px solid #1f2937;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, .7);
-      padding: 18px 18px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      overflow: hidden;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-    }
-    .title h1 { font-size: 20px; }
-    .title p { font-size: 13px; color: #9ca3af; }
-
-    .view {
-      transition: opacity .25s ease, transform .25s ease;
-    }
-    .view.hidden {
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
-      transform: translateY(8px);
-    }
-
-    /* Gallery */
-    #gallery-view {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    #gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      width: 100%;
-    }
-    .thumb {
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #1f2937;
-      background: #020617;
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
-    }
-    .thumb img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .thumb p {
-      font-size: 12px;
-      padding: 6px 8px 8px;
-      color: #9ca3af;
-    }
-    .thumb:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(15, 23, 42, .8);
-      border-color: #38bdf8;
-    }
-
-    /* Detail view */
-    #detail-view {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .back-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: #9ca3af;
-    }
-    .back-btn {
-      border: 1px solid #1f2937;
-      background: #020617;
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 12px;
-      color: #e5e7eb;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background .18s ease, border-color .18s ease;
-    }
-    .back-btn:hover {
-      background: #111827;
-      border-color: #38bdf8;
-    }
-
-    .detail-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 4.5fr) minmax(0, 7.5fr);
-      gap: 22px;
-      align-items: flex-start;
-    }
-
-    .detail-sticky {
-      position: sticky;
-      top: 12px;
-      align-self: flex-start;
-    }
-    .detail-card {
-      border-radius: 14px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      overflow: hidden;
-    }
-    .detail-card img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .detail-meta {
-      padding: 8px 10px 10px;
-      font-size: 12px;
-      color: #9ca3af;
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    /* L1–L4 with GPT / Gemini */
-    .levels {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding-bottom: 40px;
-    }
-    .level {
-      border-radius: 14px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      padding: 14px 16px 16px;
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .5s ease, transform .5s ease;
-    }
-    .level.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .level-tag {
-      font-size: 11px;
-      color: #38bdf8;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .level h3 {
-      font-size: 15px;
-      margin-bottom: 8px;
-    }
-
-    .model-cols {
-      display: flex;
-      gap: 16px;
-    }
-    .model-col {
-      flex: 1;
-      font-size: 13px;
-      line-height: 1.6;
-      color: #d1d5db;
-    }
-    .model-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: #9ca3af;
-      margin-bottom: 4px;
-    }
-    .model-label span {
-      padding: 2px 6px;
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: #020617;
-    }
-
-    @media (max-width: 900px) {
-      .detail-layout {
-        grid-template-columns: 1fr;
-      }
-      .detail-sticky {
-        position: static;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .app { padding: 14px; }
-      #gallery-grid { grid-template-columns: 1fr; }
-      .model-cols { flex-direction: column; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <div class="app">
@@ -232,258 +17,167 @@
 
   <!-- GALLERY VIEW -->
   <section id="gallery-view" class="view">
-    <p style="font-size:13px;color:#9ca3af;margin-bottom:4px;">
+    <p class="gallery-intro">
       Select a visualization to compare GPT and Gemini explanations.
     </p>
-    <div id="gallery-grid">
-      <div class="thumb" data-id="009">
-        <img src="gallery/009.png" alt="009" />
-        <p>vis 009</p>
-      </div>
-      <div class="thumb" data-id="014">
-        <img src="gallery/014.png" alt="014" />
-        <p>vis 014</p>
-      </div>
-      <div class="thumb" data-id="019">
-        <img src="gallery/019.png" alt="019" />
-        <p>vis 019</p>
-      </div>
-      <div class="thumb" data-id="020">
-        <img src="gallery/020.png" alt="020" />
-        <p>vis 020</p>
-      </div>
-      <div class="thumb" data-id="021">
-        <img src="gallery/021.png" alt="021" />
-        <p>vis 021</p>
-      </div>
-      <div class="thumb" data-id="022">
-        <img src="gallery/022.png" alt="022" />
-        <p>vis 022</p>
-      </div>
-      <div class="thumb" data-id="023">
-        <img src="gallery/023.png" alt="023" />
-        <p>vis 023</p>
-      </div>
-      <div class="thumb" data-id="024">
-        <img src="gallery/024.png" alt="024" />
-        <p>vis 024</p>
-      </div>
-      <div class="thumb" data-id="026">
-        <img src="gallery/026.png" alt="026" />
-        <p>vis 026</p>
-      </div>
-      <div class="thumb" data-id="027">
-        <img src="gallery/027.png" alt="027" />
-        <p>vis 027</p>
-      </div>
-    </div>
+    <div id="gallery-grid"></div>
   </section>
 
   <!-- DETAIL VIEW -->
   <section id="detail-view" class="view hidden">
     <div class="back-row">
       <button class="back-btn" id="back-btn">← Back to gallery</button>
-      <span id="detail-label" style="font-size:12px;"></span>
+      <span id="detail-label" class="detail-label"></span>
     </div>
 
     <div class="detail-layout">
-      <!-- 左侧 sticky 预览 -->
+      <!-- 左侧 sticky 图 -->
       <div class="detail-sticky">
         <div class="detail-card">
           <img id="detail-image" src="" alt="selected visualization" />
           <div class="detail-meta">
             <span id="detail-id">vis ???</span>
-            <span id="detail-note">Scroll to read GPT & Gemini explanations ↓</span>
+            <span id="detail-note">Scroll inside each level to see GPT &amp; Gemini overlays ↓</span>
           </div>
         </div>
       </div>
 
-      <!-- 右侧 L1–L4，GPT & Gemini -->
+      <!-- 右侧 L1–L4 -->
       <div class="levels" id="levels">
+
+        <!-- 通用组件：四个 level 结构一样，只是 id / data-scroll-level 不同 -->
+
+        <!-- L1 -->
         <article class="level" data-level="L1">
           <div class="level-tag">LEVEL 1</div>
           <h3>L1 · Chart Construction</h3>
-          <div class="model-cols">
-            <div class="model-col">
-              <div class="model-label"><span>GPT</span></div>
-              <p id="text-L1-gpt"></p>
+
+          <div class="lvl-scrolly stage-split" data-scroll-level="L1">
+            <div class="lvl-sticky">
+              <div class="lvl-card lvl-card-gpt">
+                <div class="lvl-card-label">ChatGPT</div>
+                <p id="text-L1-gpt"></p>
+              </div>
+              <div class="lvl-card lvl-card-gemini">
+                <div class="lvl-card-label">Gemini</div>
+                <p id="text-L1-gemini"></p>
+              </div>
             </div>
-            <div class="model-col">
-              <div class="model-label"><span>Gemini</span></div>
-              <p id="text-L1-gemini"></p>
+
+            <div class="lvl-stage" data-stage="split"></div>
+            <div class="lvl-stage" data-stage="overlap"></div>
+            <div class="lvl-stage" data-stage="extra">
+              <div class="lvl-extra-wrapper">
+                <h4>
+                  Entailment status:
+                  <span class="entailment-label" data-extra-level="L1">–</span>
+                </h4>
+                <p class="entailment-comment" data-extra-level="L1">
+                  <!-- human note will go here -->
+                </p>
+              </div>
             </div>
           </div>
         </article>
 
+        <!-- L2 -->
         <article class="level" data-level="L2">
           <div class="level-tag">LEVEL 2</div>
           <h3>L2 · Key Relations</h3>
-          <div class="model-cols">
-            <div class="model-col">
-              <div class="model-label"><span>GPT</span></div>
-              <p id="text-L2-gpt"></p>
+
+          <div class="lvl-scrolly stage-split" data-scroll-level="L2">
+            <div class="lvl-sticky">
+              <div class="lvl-card lvl-card-gpt">
+                <div class="lvl-card-label">ChatGPT</div>
+                <p id="text-L2-gpt"></p>
+              </div>
+              <div class="lvl-card lvl-card-gemini">
+                <div class="lvl-card-label">Gemini</div>
+                <p id="text-L2-gemini"></p>
+              </div>
             </div>
-            <div class="model-col">
-              <div class="model-label"><span>Gemini</span></div>
-              <p id="text-L2-gemini"></p>
+
+            <div class="lvl-stage" data-stage="split"></div>
+            <div class="lvl-stage" data-stage="overlap"></div>
+            <div class="lvl-stage" data-stage="extra">
+              <div class="lvl-extra-wrapper">
+                <h4>
+                  Entailment status:
+                  <span class="entailment-label" data-extra-level="L2">–</span>
+                </h4>
+                <p class="entailment-comment" data-extra-level="L2"></p>
+              </div>
             </div>
           </div>
         </article>
 
+        <!-- L3 -->
         <article class="level" data-level="L3">
           <div class="level-tag">LEVEL 3</div>
           <h3>L3 · Trend / Pattern</h3>
-          <div class="model-cols">
-            <div class="model-col">
-              <div class="model-label"><span>GPT</span></div>
-              <p id="text-L3-gpt"></p>
+
+          <div class="lvl-scrolly stage-split" data-scroll-level="L3">
+            <div class="lvl-sticky">
+              <div class="lvl-card lvl-card-gpt">
+                <div class="lvl-card-label">ChatGPT</div>
+                <p id="text-L3-gpt"></p>
+              </div>
+              <div class="lvl-card lvl-card-gemini">
+                <div class="lvl-card-label">Gemini</div>
+                <p id="text-L3-gemini"></p>
+              </div>
             </div>
-            <div class="model-col">
-              <div class="model-label"><span>Gemini</span></div>
-              <p id="text-L3-gemini"></p>
+
+            <div class="lvl-stage" data-stage="split"></div>
+            <div class="lvl-stage" data-stage="overlap"></div>
+            <div class="lvl-stage" data-stage="extra">
+              <div class="lvl-extra-wrapper">
+                <h4>
+                  Entailment status:
+                  <span class="entailment-label" data-extra-level="L3">–</span>
+                </h4>
+                <p class="entailment-comment" data-extra-level="L3"></p>
+              </div>
             </div>
           </div>
         </article>
 
+        <!-- L4 -->
         <article class="level" data-level="L4">
           <div class="level-tag">LEVEL 4</div>
           <h3>L4 · Real-world Meaning</h3>
-          <div class="model-cols">
-            <div class="model-col">
-              <div class="model-label"><span>GPT</span></div>
-              <p id="text-L4-gpt"></p>
+
+          <div class="lvl-scrolly stage-split" data-scroll-level="L4">
+            <div class="lvl-sticky">
+              <div class="lvl-card lvl-card-gpt">
+                <div class="lvl-card-label">ChatGPT</div>
+                <p id="text-L4-gpt"></p>
+              </div>
+              <div class="lvl-card lvl-card-gemini">
+                <div class="lvl-card-label">Gemini</div>
+                <p id="text-L4-gemini"></p>
+              </div>
             </div>
-            <div class="model-col">
-              <div class="model-label"><span>Gemini</span></div>
-              <p id="text-L4-gemini"></p>
+
+            <div class="lvl-stage" data-stage="split"></div>
+            <div class="lvl-stage" data-stage="overlap"></div>
+            <div class="lvl-stage" data-stage="extra">
+              <div class="lvl-extra-wrapper">
+                <h4>
+                  Entailment status:
+                  <span class="entailment-label" data-extra-level="L4">–</span>
+                </h4>
+                <p class="entailment-comment" data-extra-level="L4"></p>
+              </div>
             </div>
           </div>
         </article>
+
       </div>
     </div>
   </section>
 </div>
 
-<script>
-  // 这里放你的真实文案：每个 vis_id，两套模型各自 L1–L4
-  const visCopy = {
-    "021": {
-      label: "All stars in the universe – pie chart",
-      gpt: {
-        L1: "GPT L1 for vis 021 ...",
-        L2: "GPT L2 for vis 021 ...",
-        L3: "GPT L3 for vis 021 ...",
-        L4: "GPT L4 for vis 021 ..."
-      },
-      gemini: {
-        L1: "Gemini L1 for vis 021 ...",
-        L2: "Gemini L2 for vis 021 ...",
-        L3: "Gemini L3 for vis 021 ...",
-        L4: "Gemini L4 for vis 021 ..."
-      }
-    },
-    "020": {
-      label: "Cost of a security breach – Venn diagram",
-      gpt: {
-        L1: "GPT L1 for vis 020 ...",
-        L2: "GPT L2 for vis 020 ...",
-        L3: "GPT L3 for vis 020 ...",
-        L4: "GPT L4 for vis 020 ..."
-      },
-      gemini: {
-        L1: "Gemini L1 for vis 020 ...",
-        L2: "Gemini L2 for vis 020 ...",
-        L3: "Gemini L3 for vis 020 ...",
-        L4: "Gemini L4 for vis 020 ..."
-      }
-    }
-    // 其他 vis 按需要继续加
-  };
-
-  const defaultCopy = {
-    label: "Visualization",
-    gpt: {
-      L1: "L1 focuses on how the chart is built: chart type, encodings, axes, and layout.",
-      L2: "L2 highlights key comparisons or extrema between categories or time points.",
-      L3: "L3 describes overall trends, clusters, or outliers in the data.",
-      L4: "L4 links the visual pattern back to real-world meaning and decisions."
-    },
-    gemini: {
-      L1: "Gemini L1 placeholder: describe construction details for this chart.",
-      L2: "Gemini L2 placeholder: summarize key comparisons and differences.",
-      L3: "Gemini L3 placeholder: explain overall trend or distribution pattern.",
-      L4: "Gemini L4 placeholder: relate the pattern to real-world implications."
-    }
-  };
-
-  const galleryView = document.getElementById("gallery-view");
-  const detailView = document.getElementById("detail-view");
-  const backBtn = document.getElementById("back-btn");
-  const detailImage = document.getElementById("detail-image");
-  const detailId = document.getElementById("detail-id");
-  const detailLabel = document.getElementById("detail-label");
-
-  const text = {
-    L1g: document.getElementById("text-L1-gpt"),
-    L1m: document.getElementById("text-L1-gemini"),
-    L2g: document.getElementById("text-L2-gpt"),
-    L2m: document.getElementById("text-L2-gemini"),
-    L3g: document.getElementById("text-L3-gpt"),
-    L3m: document.getElementById("text-L3-gemini"),
-    L4g: document.getElementById("text-L4-gpt"),
-    L4m: document.getElementById("text-L4-gemini")
-  };
-
-  document.querySelectorAll(".thumb").forEach(thumb => {
-    thumb.addEventListener("click", () => {
-      const id = thumb.dataset.id;
-      const img = thumb.querySelector("img");
-      const copy = visCopy[id] || defaultCopy;
-
-      detailImage.src = img.src;
-      detailImage.alt = img.alt || ("vis " + id);
-      detailId.textContent = "vis " + id;
-      detailLabel.textContent = copy.label;
-
-      text.L1g.textContent = (copy.gpt && copy.gpt.L1) || defaultCopy.gpt.L1;
-      text.L1m.textContent = (copy.gemini && copy.gemini.L1) || defaultCopy.gemini.L1;
-      text.L2g.textContent = (copy.gpt && copy.gpt.L2) || defaultCopy.gpt.L2;
-      text.L2m.textContent = (copy.gemini && copy.gemini.L2) || defaultCopy.gemini.L2;
-      text.L3g.textContent = (copy.gpt && copy.gpt.L3) || defaultCopy.gpt.L3;
-      text.L3m.textContent = (copy.gemini && copy.gemini.L3) || defaultCopy.gemini.L3;
-      text.L4g.textContent = (copy.gpt && copy.gpt.L4) || defaultCopy.gpt.L4;
-      text.L4m.textContent = (copy.gemini && copy.gemini.L4) || defaultCopy.gemini.L4;
-
-      galleryView.classList.add("hidden");
-      detailView.classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-
-      document.querySelectorAll(".level").forEach(el => el.classList.remove("visible"));
-      setTimeout(() => { levelsObserver(); }, 50);
-    });
-  });
-
-  backBtn.addEventListener("click", () => {
-    detailView.classList.add("hidden");
-    galleryView.classList.remove("hidden");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  function levelsObserver() {
-    const levels = document.querySelectorAll(".level");
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    levels.forEach(el => io.observe(el));
-  }
-
-  document.addEventListener("DOMContentLoaded", levelsObserver);
-</script>
+<script src="script.js"></script>
 </body>
 </html>

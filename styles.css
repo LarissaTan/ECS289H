@@ -1,0 +1,359 @@
+/* ====== global ====== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+               "Segoe UI", sans-serif;
+  background: #020617;
+  color: #e5e7eb;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 12px;
+}
+
+.app {
+  width: 100%;
+  max-width: 1080px;
+  background: #020617;
+  border-radius: 18px;
+  border: 1px solid #1f2937;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .7);
+  padding: 18px 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.title h1 { font-size: 20px; }
+.title p { font-size: 13px; color: #9ca3af; }
+
+.view {
+  transition: opacity .25s ease, transform .25s ease;
+}
+.view.hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(8px);
+}
+
+/* ====== gallery ====== */
+
+.gallery-intro {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+#gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.thumb {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #1f2937;
+  background: #020617;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.thumb p {
+  font-size: 12px;
+  padding: 6px 8px 8px;
+  color: #9ca3af;
+}
+
+.thumb:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .8);
+  border-color: #38bdf8;
+}
+
+/* ====== back row / detail ====== */
+
+.back-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.back-btn {
+  border-radius: 999px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #e5e7eb;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background .18s ease, border-color .18s ease;
+}
+.back-btn:hover {
+  background: #111827;
+  border-color: #38bdf8;
+}
+
+.detail-label {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 4.5fr) minmax(0, 7.5fr);
+  gap: 22px;
+  align-items: flex-start;
+}
+
+.detail-sticky {
+  position: sticky;
+  top: 12px;
+  align-self: flex-start;
+}
+
+.detail-card {
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  overflow: hidden;
+}
+
+.detail-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.detail-meta {
+  padding: 8px 10px 10px;
+  font-size: 12px;
+  color: #9ca3af;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* ====== levels common ====== */
+
+.levels {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 40px;
+}
+
+.level {
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  padding: 14px 16px 10px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.level.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.level-tag {
+  font-size: 11px;
+  color: #38bdf8;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.level h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+/* ====== scroll-merge component for every level ====== */
+
+.level[data-level] {
+  padding-bottom: 18px;
+}
+
+.lvl-scrolly {
+  margin-top: 8px;
+  max-height: 70vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+/* 🎯 小框整体再矮一点 */
+.lvl-sticky {
+  position: sticky;
+  top: 12px;
+  height: 170px;          /* 原 200 / 240 → 170，更紧凑 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.lvl-card {
+  position: absolute;
+  width: 40%; 
+  margin-top: 200px;     
+  max-width: 320px;
+  min-width: 220px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: #f9fafb;
+  color: #111827;
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148,163,184,0.55);
+  transition: transform .6s ease, opacity .6s ease;
+}
+
+.lvl-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.lvl-card p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.lvl-scrolly.stage-split .lvl-card-gpt {
+  transform: translateX(-140px);
+}
+.lvl-scrolly.stage-split .lvl-card-gemini {
+  transform: translateX(140px);
+}
+
+/* stage 2: 真正「重叠」在中间（0,0） */
+.lvl-scrolly.stage-overlap .lvl-card-gpt {
+  transform: translateX(0);
+  opacity: 1;
+}
+.lvl-scrolly.stage-overlap .lvl-card-gemini {
+  transform: translateX(0);
+  opacity: 0.55;       /* Gemini 半透明，避免挡字 */
+}
+
+/* stage 3: 仍然重叠，只是更淡，下面出现 result 文本 */
+.lvl-scrolly.stage-extra .lvl-card-gpt {
+  transform: translateX(0);
+  opacity: 0.40;
+}
+.lvl-scrolly.stage-extra .lvl-card-gemini {
+  transform: translateX(0);
+  opacity: 0.30;
+}
+
+
+.lvl-stage {
+  min-height: 45vh;      
+  scroll-snap-align: start;
+}
+
+/* entailment extra */
+.lvl-extra-wrapper {
+  margin-top: 400px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s ease;
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+
+.lvl-extra-wrapper h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+.lvl-extra-wrapper p {
+  line-height: 1.7;
+}
+
+.lvl-stage.active-stage[data-stage="extra"] .lvl-extra-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ====== responsive ====== */
+
+@media (max-width: 900px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-sticky {
+    position: static;
+  }
+
+  
+  .lvl-scrolly {
+    max-height: none;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+ .lvl-sticky {
+  overflow: visible;
+  position: sticky;
+  top: 32px;        /* 如果现在不是 32，就改成 32 */
+  height: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+  .lvl-card {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    transform: none !important;
+    opacity: 1 !important;
+    margin-bottom: 10px;
+  }
+  .lvl-stage {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .app { padding: 14px; }
+  #gallery-grid { grid-template-columns: 1fr; }
+}
+
+/* .lvl-scrolly[data-has-entailment="true"] .lvl-stage[data-stage="extra"] .lvl-extra-wrapper {
+  margin-top: 300px;  
+} */

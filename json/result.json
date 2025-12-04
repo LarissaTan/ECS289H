@@ -1,0 +1,151 @@
+{
+  "vis_009": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Contradiction",
+      "L4": "Contradiction"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": "GPT says decrease start at 2012, and Gemini says decrease start at early 2011, which indicates unmatched data value",
+      "L4": "They both mentioned the failure of political promises, and slow economic recovery. But in GPT, it mentioned that slow recovery can affect public opinion towards the leadership, which Gemini did not mentioned."
+    }
+  },
+
+  "vis_014": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Contradiction"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": null,
+      "L4": "Both mention that high democracy can lead to a lower corruption rate. GPT mentioned that governance structure alone is not the only reason; Gemini did not. "
+    }
+  },
+
+  "vis_019": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Contradiction",
+      "L3": "Entailment",
+      "L4": "Entailment"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": "The comparison methods differ between the models. GPT uses a group-to-group approach (age groups compared to each other, gender to gender). Gemini uses the highest group as a single benchmark against all other groups.",
+      "L3": null,
+      "L4": "The chart itself is ambiguous because it fails to clarify whether the denominators (the total base number) are consistent across all categories. It seems that both GPT and Gemini picked up on the same potential interpretation of the data on L4."
+    }
+  }, 
+
+  "vis_020": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Entailment"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": null,
+      "L4": "Both models agreed on the interpretation — that breaches are expensive and that prevention is a cheaper investment than recovery. However, neither GPT nor Gemini attempted to interpret the overlapping range between 65k and 115k, which unexplained data point."
+    }
+  },
+
+  "vis_021": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Contradiction"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": null,
+      "L4": "They both mentioned that red dwarf is majority and can be used for exoplanets, but GPT mentioned that it is for galactic structure and star-forming theory and Gemini suggest shifting the focus of planetary habitability"
+    }
+  },
+
+  "vis_022": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Contradiction"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": null,
+      "L4": "Both models agreed that the behavior is age-dependent, with younger demographics showing a higher rate, and that this is relevant to policy and marketing decisions. However, they offered different causal interpretations: GPT simply stated that people behave differently across age groups, while Gemini focused on the idea that young people's current behavior can drive future trends."
+    }
+  },
+
+  "vis_023": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Contradiction"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": null,
+      "L4": "GPT focus on transfer occasional rider into regular rider for health and environment. Gemini focus on bike infrastructure, and suggest market growth."
+    }
+  },
+
+  "vis_024": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Entailment"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": null,
+      "L4": null
+    }
+  },
+
+  "vis_026": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Contradiction"
+    },
+    "human_annotation": {
+      "L1": null,
+      "L2": null,
+      "L3": null,
+      "L4": "They both agreed on the fundamental conclusion that a global policy is necessary to address climate change. But, there is a contradiction regarding analytical depth: GPT included the scientific confidence level for the forecasts, an aspect that Gemini missed. "
+    }
+  },
+
+  "vis_027": {
+    "entailment_status": {
+      "L1": "Entailment",
+      "L2": "Entailment",
+      "L3": "Entailment",
+      "L4": "Contradiction"
+    },
+    "human_annotation": {
+      "L1": "Structure and encoding identified consistently.",
+      "L2": "Models disagreed on which group was highest.",
+      "L3": "Trend description was aligned.",
+      "L4": "Both models agreed on the point: the growing minority population can impact voting outcomes. The key distinction is that Gemini gives extra recommendations: a specific step by mentioning the need to actively engage with voters. "
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "visualizations": [
+    {
+      "vis_id": "009",
+      "file_name": "009.png",
+      "models": {
+        "gpt": {
+          "L3_trend_pattern": "Unemployment rose sharply from 2008 to 2009, peaking around 10%. It remained elevated throughout 2010 and early 2011, fluctuating around 9–10%, and began a slow decline in 2012, dropping below 8% by the end of that year."
+        },
+        "gemini": {
+          "L3_trend_pattern": "The overall trend shows a steep initial increase in the unemployment rate from late 2008 to mid-2009 (from ~6.5% to ~9.8%), followed by a period of high-level volatility throughout 2010. Starting in early 2011, the rate begins a sustained, gradual decline, eventually crossing the 8% mark around mid-2012 and ending near 7.5%."
+        }
+      }
+    },
+    {
+      "vis_id": "014",
+      "file_name": "014.png",
+      "models": {
+        "gpt": {
+          "L3_trend_pattern": "There is a clear negative correlation: countries with higher democracy scores tend to have lower corruption scores. The top-right corner (high democracy, high corruption) is empty, reinforcing this pattern."
+        },
+        "gemini": {
+          "L3_trend_pattern": "The overall pattern shows a **negative correlation** between the Electoral Democracy Index and the Political Corruption Index. As the value of the Electoral Democracy Index increases, the Political Corruption Index generally decreases. The top-right quadrant (highly democratic and highly corrupt) is conspicuously empty, reinforcing the negative relationship."
+        }
+      }
+    },
+    {
+      "vis_id": "019",
+      "file_name": "019.png",
+      "models": {
+        "gpt": {
+          "L3_trend_pattern": "Texting or emailing while driving is far more common among young drivers aged 18–24, with nearly half of those aged 21–24 admitting to the behavior. Gender differences exist but are much smaller in comparison to age differences."
+        },
+        "gemini": {
+          "L3_trend_pattern": "The overall pattern demonstrates that age is a far more significant differentiator than sex for the percentage of people sending text messages or e-mails while driving. The younger age demographics (18–24) exhibit participation rates that are substantially higher than the rates categorized by sex."
+        }
+      }
+    },
+    {
+        "vis_id": "020",
+        "file_name": "020.png",
+        "models": {
+            "gpt": {
+                "L3_trend_pattern": "There is no time trend shown; the visualization simply indicates that the average cost of a serious security breach typically falls between £65,000 and £115,000."
+            },
+            "gemini": {
+                "L3_trend_pattern": "The visualization shows that the average cost of a serious security breach is between £65,000 and £115,000, as depicted by two overlapping circles representing the lower and upper bounds of the cost range."
+            }
+        }
+    },
+    {
+        "vis_id": "021",
+        "file_name": "021.png",
+        "models": {
+            "gpt": {
+                "L3_trend_pattern": "The chart shows a simple proportional breakdown of all stars in the universe: red dwarfs make up the dominant share at 70%, while all other types of stars collectively account for the remaining 30%. There is no time component—only a categorical comparison illustrating red dwarfs’ overwhelming prevalence."
+            },
+            "gemini": {
+                "L3_trend_pattern": "The visualization highlights a clear proportion: red dwarfs constitute the majority of stars in the universe at around 70%, with other stars representing only about 30%. Rather than depicting change over time, the chart emphasizes how red dwarfs vastly outnumber all other star categories."
+            }
+        }
+    },
+    {
+        "vis_id": "022",
+        "file_name": "022.png",
+        "models": {
+            "gpt": {
+                "L3_trend_pattern": "The pattern shows a clear declining trend across age groups: the youngest adults (18–34) have the highest percentage at 30%, and the values steadily decrease with age, dropping to 12% among those 65 and older. The chart illustrates that engagement or participation is strongest in younger groups and consistently weakens as age increases."
+            },
+            "gemini": {
+                "L3_trend_pattern": "The visualization displays a clear inverse correlation between age and the measured percentage, showing a consistent and significant decline in the percentage across successive age groups. The youngest group, 18-34, has the highest percentage at 30%, which steadily drops through the 35-44 group (21%) and the 45-54 group (20%), down to the 65+ age group, which has the lowest percentage at 12%."
+            }
+        }
+    },
+    {
+        "vis_id": "023",
+        "file_name": "023.png",
+        "models": {
+            "gpt": {
+                "L3_trend_pattern": "The chart compares two related participation levels in biking among U.S. adults. A larger share—34%—rode a bike at least once in the past year, while a smaller subset, 24%, rode a bike more than six times. The pattern shows that occasional biking is more common than frequent biking."
+            },
+            "gemini": {
+                "L3_trend_pattern": "Based on a 2014 survey of U.S. adults (aged 18+), 34% (103.7 million Americans) reported riding a bike at least once in the last year, and 24% (72.9 million Americans) reported riding a bike more than six times in the last year."
+            }
+        }
+    },
+    {
+        "vis_id": "024",
+        "file_name": "024.png",
+        "models": {
+            "gpt": {
+                "L3_trend_pattern": "The chart highlights an extreme disparity between three counts: possible voter impersonation cases (9), lightning-related deaths (352), and UFO reports (32,299). The pattern emphasizes how vanishingly small the voter-fraud number is, especially when contrasted with the dramatically larger counts of the other two categories."
+            },
+            "gemini": {
+                "L3_trend_pattern": "The chart compares the rarity of voter fraud to other events, illustrating that the number of possible occurrences of voter impersonation is extremely low at 9, while the number of deaths caused by lightning is 352, and the number of reports of UFOs is vastly higher at 32,299 (based on chart data from 2000-2007)."
+            }
+        }
+    },
+    {
+        "vis_id": "026",
+        "file_name": "026.png",
+        "models": {
+            "gpt": {
+                "L3_trend_pattern": "The chart shows a clear long-term warming trend: observed temperature anomalies rise steadily from around −0.25°C in the 1950s to above +0.5°C after 2000. Observations fall within the CMIP3 model projections, and from 2000 onward the model ensemble fans outward, indicating increasing uncertainty but consistent upward warming across all scenarios."
+            },
+            "gemini": {
+                "L3_trend_pattern": "The chart displays the global temperature anomaly (°C) relative to the 1961-1990 period. Observations (1950-2000) show a general warming trend. Post-2000, model projections (AR4 CMIP3) predict a continuation of this warming trend, with various scenarios (e.g., B1, A1B, A2) forecasting an anomaly rise up to approximately 1.5 °C or 2 °C by 2035, compared to earlier assessment reports (FAR, SAR, TAR) which projected lower warming ranges."
+            }
+        }
+    },
+    {
+        "vis_id": "027",
+        "file_name": "027.png",
+        "models": {
+            "gpt": {
+                "L3_trend_pattern": "The map shows geographic voting patterns in majority-minority counties during the 2012 U.S. presidential election. Barack Obama won most of these counties—particularly in the South, Southwest, and parts of the West—while Mitt Romney captured a smaller but regionally clustered set, especially in portions of Texas and the Mountain West. The overall pattern highlights strong Democratic support across these counties, with Republican wins appearing in more localized pockets."
+            },
+            "gemini": {
+                "L3_trend_pattern": "The map displays the 2012 Presidential Election results specifically within Majority Minority Counties across the U.S. The results show that Barack Obama (Democrat, blue) won a majority of these counties, particularly those clustered along the Southern border, in the Deep South, and in parts of the West Coast and Southwest, while Mitt Romney (Republican, red) won a smaller number of these counties, mostly scattered across the Southwest and Midwest."
+            }
+        }
+    }
+  ]
+}
