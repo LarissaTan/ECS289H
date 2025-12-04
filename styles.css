@@ -209,11 +209,11 @@ body {
   scroll-snap-type: y mandatory;
 }
 
-/* 🎯 小框整体再矮一点 */
 .lvl-sticky {
+  padding-top: 200px;
   position: sticky;
   top: 12px;
-  height: 170px;          /* 原 200 / 240 → 170，更紧凑 */
+  height: 170px;        
   display: flex;
   justify-content: center;
   align-items: center;
@@ -223,7 +223,6 @@ body {
 .lvl-card {
   position: absolute;
   width: 40%; 
-  margin-top: 200px;     
   max-width: 320px;
   min-width: 220px;
   padding: 8px 10px;
@@ -281,13 +280,25 @@ body {
 
 /* entailment extra */
 .lvl-extra-wrapper {
-  margin-top: 400px;
+  position: relative;
+  z-index: 2;            
+  margin-top: 90px;             
+  padding: 14px 16px;              
+  
+  background: rgba(2, 6, 23, 0.92); 
+  backdrop-filter: blur(4px);      
+  
+  border: 1px solid #1f2937;       
+  border-radius: 12px;           
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);  
+  
   opacity: 0;
   transform: translateY(16px);
   transition: opacity .5s ease, transform .5s ease;
   font-size: 13px;
   color: #d1d5db;
 }
+
 
 
 .lvl-extra-wrapper h4 {
